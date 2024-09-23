@@ -4,6 +4,7 @@ import {
     Dispatch,
     SetStateAction,
     useContext,
+    useEffect,
     useState,
 } from "react";
 import { User } from "../_types/user.type";
@@ -26,7 +27,12 @@ export default function UserContextProvider({
     const fetchUser = async () => {
         const token = getAccessToken();
         const result = await getMe(token);
+        setUser(result);
     };
+
+    useEffect(() => {
+        fetchUser();
+    }, []);
 
     const value = {
         user,
@@ -41,7 +47,7 @@ export const useAuth = () => {
     const context = useContext(UserContext);
 
     if (!context) {
-        throw new Error("useTodo must be use within a TodoContextProvider");
+        throw new Error("useAuth must be use within a UserContextProvider");
     }
 
     return context;

@@ -1,10 +1,20 @@
+"use client";
 import { createQuote } from "@/app/_lib/quote-data";
+import { getAccessToken } from "@/app/_utils/local-storage";
 import Link from "next/link";
 import React from "react";
 
 export default function CreateForm() {
+    const handleClickCreate = async (formData: FormData) => {
+        try {
+            const token = getAccessToken();
+            await createQuote(token, formData);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     return (
-        <form action={createQuote}>
+        <form action={handleClickCreate}>
             <div className="rounded-md bg-gray-50 p-6">
                 {/* Title */}
                 <div className="mb-4">

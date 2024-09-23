@@ -3,19 +3,20 @@ import Link from "next/link";
 import React, { FormEvent } from "react";
 import { getMe, login } from "../_lib/auth-data";
 import { setAccessToken } from "../_utils/local-storage";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { useAuth } from "../_contexts/user-context";
 
 export default function LoginForm() {
     const { user, setUser } = useAuth();
+    const router = useRouter();
 
     const handleClickLogin = async (formData: FormData) => {
         try {
             const accessToken = await login(formData);
             setAccessToken(accessToken);
             const authUser = await getMe(accessToken);
-            console.log(authUser);
-            // setUser(authUser);
+            setUser(authUser);
+            router.push("/");
         } catch (error) {
             console.log(error);
         }
