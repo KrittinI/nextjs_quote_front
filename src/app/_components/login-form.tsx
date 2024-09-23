@@ -1,10 +1,28 @@
+"use client";
 import Link from "next/link";
-import React from "react";
-import { login } from "../_lib/auth-data";
+import React, { FormEvent } from "react";
+import { getMe, login } from "../_lib/auth-data";
+import { setAccessToken } from "../_utils/local-storage";
+import { redirect } from "next/navigation";
+import { useAuth } from "../_contexts/user-context";
 
 export default function LoginForm() {
+    const { user, setUser } = useAuth();
+
+    const handleClickLogin = async (formData: FormData) => {
+        try {
+            const accessToken = await login(formData);
+            setAccessToken(accessToken);
+            const authUser = await getMe(accessToken);
+            console.log(authUser);
+            // setUser(authUser);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
     return (
-        <form action={login}>
+        <form action={handleClickLogin}>
             <div className="rounded-md bg-gray-50 p-6">
                 {/* Username */}
                 <div className="mb-4">

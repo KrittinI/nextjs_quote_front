@@ -51,7 +51,7 @@ export default function RegisterForm() {
                     >
                         Confirm Password
                     </label>
-                    <div className="relative mt-2 rounded-md">
+                    <div className="relative mt-2 rounded-md ">
                         <input
                             id="confirmpassword"
                             name="confirmpassword"

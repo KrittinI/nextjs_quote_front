@@ -1,6 +1,7 @@
 "use server";
 import { redirect } from "next/navigation";
 import axios from "../_config/axios";
+import { User } from "../_types/user.type";
 
 export async function register(formData: FormData) {
     const username = formData.get("username");
@@ -17,16 +18,29 @@ export async function register(formData: FormData) {
             password,
             confirmpassword,
         });
-    } catch (error) {
-        throw new Error(error);
+    } catch (err) {
+        throw new Error(String(err));
     }
     redirect("/login");
 }
 
-export async function login(formData: FormData) {
+export async function login(formData: FormData): Promise<string> {
     const username = formData.get("username");
     const password = formData.get("password");
 
     const result = await axios.post(`/auth/login`, { username, password });
-    console.log(result.data);
+    return await result.data.accessToken;
+}
+
+export async function getMe(token: string | null) {
+    if (!token) {
+        return;
+    }
+    const result = await axios.get("/users/profile", {
+        headers: {
+            Authorization: `Bearer ${token}`, // put your token here
+        },
+    });
+    console.log(result);
+    // return authUser;
 }
