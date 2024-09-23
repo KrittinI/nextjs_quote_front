@@ -18,7 +18,6 @@ export async function updateQuote(
 ) {
     const title = formData.get("title");
     const author = formData.get("author");
-
     if (!title) {
         throw new Error("Title is Required");
     }
@@ -32,7 +31,7 @@ export async function updateQuote(
             },
         }
     );
-
+    fetchAllQuote();
     redirect("/");
 }
 

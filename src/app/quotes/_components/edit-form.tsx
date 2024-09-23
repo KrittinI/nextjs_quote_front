@@ -1,16 +1,21 @@
+"use client";
 import { fetchQuoteById, updateQuote } from "@/app/_lib/quote-data";
+import { Quote } from "@/app/_types/quote.type";
+import { getAccessToken } from "@/app/_utils/local-storage";
 import Link from "next/link";
 import React from "react";
 
 interface EditFormProps {
-    id: number;
+    quote: Quote;
 }
 
-export default async function EditForm({ id }: EditFormProps) {
-    const result = await fetchQuoteById(id);
-    const quote = result.data;
+export default function EditForm({ quote }: EditFormProps) {
+    const handleClickUpdate = (formData: FormData) => {
+        const token = getAccessToken();
+        updateQuote(token, quote.id, formData);
+    };
     return (
-        <form action={updateQuote.bind(null, id)}>
+        <form action={handleClickUpdate}>
             <div className="rounded-md bg-gray-50 p-6">
                 {/* Title */}
                 <div className="mb-4">
