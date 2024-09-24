@@ -3,8 +3,8 @@ import { redirect } from "next/navigation";
 import axios from "../_config/axios";
 import { revalidatePath } from "next/cache";
 
-export async function fetchAllQuote() {
-    return await axios.get("/quotes");
+export async function fetchAllQuote(title: string) {
+    return await axios.get(`/quotes?title=${title}`);
 }
 
 export async function fetchQuoteById(id: number) {
@@ -31,7 +31,7 @@ export async function updateQuote(
             },
         }
     );
-    fetchAllQuote();
+    fetchAllQuote("");
     redirect("/");
 }
 
@@ -52,7 +52,7 @@ export async function createQuote(token: string | null, formData: FormData) {
             },
         }
     );
-    fetchAllQuote();
+    fetchAllQuote("");
     redirect("/");
 }
 
@@ -63,4 +63,19 @@ export async function deleteQuote(token: string | null, id: number) {
         },
     });
     revalidatePath("/");
+}
+
+export async function voteQuote(token: string | null, id: number) {
+    const result = await axios.patch(
+        `/quotes/${id}/voted`,
+        { voteId: id },
+        {
+            headers: {
+                Authorization: `Bearer ${token}`, // put your token here
+            },
+        }
+    );
+    revalidatePath("/");
+    console.log(result);
+    return result.data;
 }

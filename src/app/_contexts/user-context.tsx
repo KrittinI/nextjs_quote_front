@@ -8,13 +8,15 @@ import {
     useState,
 } from "react";
 import { User } from "../_types/user.type";
-import { getAccessToken, setAccessToken } from "../_utils/local-storage";
-import { getMe, login } from "../_lib/auth-data";
+import { getAccessToken } from "../_utils/local-storage";
+import { getMe } from "../_lib/auth-data";
 
 interface UserContextValue {
     user: User | null;
     setUser: Dispatch<SetStateAction<User | null>>;
+    fetchUser: () => Promise<void>;
 }
+
 export const UserContext = createContext<UserContextValue | null>(null);
 
 export default function UserContextProvider({
@@ -27,6 +29,7 @@ export default function UserContextProvider({
     const fetchUser = async () => {
         const token = getAccessToken();
         const result = await getMe(token);
+        console.log(result);
         setUser(result);
     };
 
@@ -37,6 +40,7 @@ export default function UserContextProvider({
     const value = {
         user,
         setUser,
+        fetchUser,
     };
     return (
         <UserContext.Provider value={value}>{children}</UserContext.Provider>

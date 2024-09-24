@@ -1,13 +1,12 @@
 "use client";
 import Link from "next/link";
-import React, { FormEvent } from "react";
 import { getMe, login } from "../_lib/auth-data";
 import { setAccessToken } from "../_utils/local-storage";
-import { redirect, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useAuth } from "../_contexts/user-context";
 
 export default function LoginForm() {
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
     const router = useRouter();
 
     const handleClickLogin = async (formData: FormData) => {

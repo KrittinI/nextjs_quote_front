@@ -41,6 +41,7 @@ export async function getMe(token: string | null): Promise<User | null> {
             Authorization: `Bearer ${token}`, // put your token here
         },
     });
+    console.log(result.data);
     const authUser = result.data;
     return authUser;
 }

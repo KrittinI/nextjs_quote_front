@@ -1,5 +1,5 @@
 export interface User {
-    username: string;
-    isVoted: boolean;
-    id: number;
+    username?: string;
+    isVoted?: boolean;
+    id?: number;
 }

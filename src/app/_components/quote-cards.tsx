@@ -4,6 +4,7 @@ import { Quote } from "../_types/quote.type";
 import EditButton from "./edit-button";
 import VoteButton from "./vote-button";
 import { useAuth } from "../_contexts/user-context";
+import DeleteButton from "./delete-button";
 
 interface QuotesCardProps {
     quote: Quote;
@@ -22,7 +23,7 @@ export default function QuotesCard({ quote }: QuotesCardProps) {
             {!quote.voted && quote.creator === user?.id && (
                 <div className="flex justify-between items-center">
                     <EditButton id={quote.id} />
-                    <button>Delete</button>
+                    <DeleteButton id={quote.id} />
                 </div>
             )}
         </div>
